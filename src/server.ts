@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'; 
 //import ConnectToDb from './infrastructure/connection';
 //import { config } from "./config/config"
+import {PORT} from './config/config'
 
 const app = express()
 const port = 3000;
@@ -17,8 +18,5 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
-// import express from 'express';
-
-// const app = express(); //create an express app 
 
 export default app;
