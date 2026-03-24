@@ -1,16 +1,11 @@
-import dotenv from "dotenv-safe";
+import { config } from "dotenv";
 
-dotenv.config({ allowEmptyValues: true, path: `.env.${process.env.NODE_ENV}` }); //allows environment variables to be accessed.
+config({path: `.env.${process.env.NODE_ENV || 'development'}.local`});
 
-const ENVIRONMENT = process.env.NODE_ENV ?? "development";
-const MONGO_HOST = process.env.MONGO_HOST ?? "";
-const MONGO_DATABASE = process.env.MONGO_DATABASE ?? "";
-const MONGO_PORT = process.env.MONGO_PORT ?? "";
-const MONGO_URL = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`;
-
-export const config = {
-  environment: ENVIRONMENT,
-  mongo: {
-    url: MONGO_URL
-  }
-}
+export const {
+    PORT, 
+    NODE_ENV, 
+    MONGODB_URI,
+    JWT_SECRET,
+    JWT_EXPIRES_IN
+} = process.env;
