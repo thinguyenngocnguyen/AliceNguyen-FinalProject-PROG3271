@@ -16,7 +16,4 @@ postRouter.delete('/:id', (req, res) => res.send({title: 'Delete post by id'}));
 postRouter.post('/:id/like', (req, res) => res.send({title: 'Like a post'}));
 postRouter.post('/:id/unlike', (req, res) => res.send({title: 'Unlike a post'}));
 
-
-// update super user after////
-
 export default postRouter;
