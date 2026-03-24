@@ -7,12 +7,15 @@ import authRouter from './ports/routes/auth.routes';
 import commentRouter from './ports/routes/comment.router';
 import adminRouter from './ports/routes/admin.router';
 import errorMiddleware from './ports/middlewares/error.middleware';
+import cookieParser from 'cookie-parser';
 
 const app = express()
 const port = 3000;
 
-//Connect to the database
-//ConnectToDb();
+app.use(express.json()) // handle Json data sent in requests or API
+app.use(express.urlencoded({ extended: false })) // handle form data sent in requests via HTML forms
+app.use(cookieParser()) // handle cookies sent in requests
+//reading cookies from incomming requests and sending cookies in responses to store user data
 
 app.use(express.json()) //middleware to parse incoming JSON requests
 
