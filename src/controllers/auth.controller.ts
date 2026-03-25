@@ -11,7 +11,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
     session.startTransaction();
     try {
         //Create new user
-        const { username, email, password } = req.body;
+        const { username, email, password, role } = req.body;
 
         //Check if user already exis
 
@@ -25,7 +25,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = await User.create([{ username, email, password: hashedPassword }], { session });
+        const newUser = await User.create([{ username, email, password: hashedPassword, role: role ?? 'user' }], { session });
 
         const jwtSecret = JWT_SECRET;
         if (!jwtSecret) {
@@ -39,6 +39,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
             jwtSecret,
             { expiresIn: (JWT_EXPIRES_IN || '1h') as any }
         );
+        const safeUser = await User.findById(newUser[0]._id).select("-password").session(session);
 
         await session.commitTransaction();
         session.endSession();
@@ -48,7 +49,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
             message : 'User created successfully',
             data: {
                 token,
-                User: newUser[0]
+                user: safeUser
             }});
     
 }catch (error) {
