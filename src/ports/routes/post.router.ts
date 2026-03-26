@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { createPost } from "../../controllers/post.controller";
+import { updatePost } from "../../controllers/post.controller";
+import { forceEditPost } from "../../controllers/post.controller";
+import { likePost } from "../../controllers/post.controller";
+import { deletePost } from "../../controllers/post.controller";
 import authorize from "../middlewares/auth.middleware";
 
 const postRouter = Router();
@@ -11,14 +15,14 @@ postRouter.get('/:id', (req, res) => res.send({title: 'GET post by id'}));
 
 // add authentication middleware after////
 postRouter.post('/create-post', authorize, createPost);
-postRouter.put('/:id', (req, res) => res.send({title: 'Update post by id'}));
-postRouter.delete('/:id', (req, res) => res.send({title: 'Delete post by id'}));
+postRouter.put('/:id/update-post', authorize, updatePost);
+postRouter.delete('/:id/delete-post', authorize, deletePost);
 
 //Likes
-postRouter.post('/:id/like', (req, res) => res.send({title: 'Like a post'}));
-postRouter.post('/:id/unlike', (req, res) => res.send({title: 'Unlike a post'}));
+postRouter.post('/:id/like', authorize, likePost);
+//postRouter.post('/:id/unlike', authorize, (req, res) => res.send({title: 'Unlike a post'}));
 
 //Super user force edit others post
-postRouter.put('/:postId/force-edit', (req, res) => res.send({title: 'Super user force edit others post'}));
+postRouter.put('/:postId/force-edit', authorize, forceEditPost);
 
 export default postRouter;
